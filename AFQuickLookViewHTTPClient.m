@@ -20,9 +20,15 @@
 // THE SOFTWARE.
 
 #import "AFQuickLookViewHTTPClient.h"
-#import <AFNetworking.h>
+#import "AFNetworking.h"
 
 static AFQuickLookViewHTTPClient *_sharedClient = nil;
+
+@interface AFQuickLookViewHTTPClient ()
+
+@property (nonatomic, strong) AFHTTPRequestOperationManager *httpManager;
+
+@end
 
 @implementation AFQuickLookViewHTTPClient
 
@@ -30,17 +36,17 @@ static AFQuickLookViewHTTPClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if (_sharedClient == nil) {
-            NSURL* baseURL = [NSURL URLWithString:@"http://your-api.example.com"];
-            _sharedClient = [[AFQuickLookViewHTTPClient alloc] initWithBaseURL:baseURL];
+            _sharedClient = [[AFQuickLookViewHTTPClient alloc] init];
         }
     });
     return _sharedClient;
 }
 
-- (id)initWithBaseURL:(NSURL *)url {
-    self = [super initWithBaseURL:url];
+- (instancetype)init {
+    self = [super init];
     if (self) {
-        [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];;
+        _httpManager = [AFHTTPRequestOperationManager manager];
+        _httpManager.responseSerializer = [AFHTTPResponseSerializer serializer];
     }
     return self;
 }
@@ -50,18 +56,13 @@ static AFQuickLookViewHTTPClient *_sharedClient = nil;
         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
        progress:(void (^)(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead))progress {
-    NSURLRequest *request = [self requestWithMethod:@"GET" path:path parameters:parameters];
-    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
-    [operation setDownloadProgressBlock:progress];
-    [self enqueueHTTPRequestOperation:operation];
+    
+    AFHTTPRequestOperation *operation = [self.httpManager GET:path parameters:parameters success:success failure:failure];
+    [operation setDownloadProgressBlock:progress];    
 }
 
 - (void)cancelAllDownloadOperations {
-    for (NSOperation *operation in [self.operationQueue operations]) {
-        if ([operation isKindOfClass:[AFHTTPRequestOperation class]]) {
-            [operation cancel];
-        }
-    }
+    [[self.httpManager operationQueue] cancelAllOperations];
 }
 
 @end
