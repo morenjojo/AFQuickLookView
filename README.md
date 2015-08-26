@@ -4,6 +4,8 @@ AFQuickLookView is an extension for [AFNetworking](http://github.com/AFNetworkin
 
 This is still in early stages of development, so proceed with caution when using this in a production application. Any bug reports, feature requests, or general feedback at this point would be greatly appreciated.
 
+原作者很近没更新了，我来更新一下
+
 ## Example Usage
 
 Add an instance of the AFQuickLookView to the view of you choosing:
@@ -54,6 +56,7 @@ Content-Disposition: attachment;filename="examplefile.pdf"
 
 ## Contact
 
+原作者：
 XING AG
 
 - https://github.com/xing
@@ -65,6 +68,9 @@ Claudiu-Vlad Ursache
 - https://github.com/ursachec
 - https://twitter.com/ursachec
 - http://cvursache.com
+
+update by：
+- https://github.com/morenjojo
 
 ## License
 
