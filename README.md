@@ -4,7 +4,7 @@ AFQuickLookView is an extension for [AFNetworking](http://github.com/AFNetworkin
 
 This is still in early stages of development, so proceed with caution when using this in a production application. Any bug reports, feature requests, or general feedback at this point would be greatly appreciated.
 
-原作者很近没更新了，我来更新一下
+原作者很久没更新了，我来更新一下，支持目前最新的AFNetworking
 
 ## Example Usage
 
