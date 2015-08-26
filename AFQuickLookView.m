@@ -21,10 +21,10 @@
 
 #import "AFQuickLookViewHTTPClient.h"
 #import "AFQuickLookView.h"
-#import <AFNetworking/AFNetworking.h>
+#import "AFNetworking.h"
 
 // Control the positioning of attachmentDetailView subviews here
-static CGFloat kPaddingTopBetweenFileImageViewAndSuperview = 10.0f;
+/*<unused> static CGFloat kPaddingTopBetweenFileImageViewAndSuperview = 10.0f;*/
 static CGFloat kPaddingTopBetweenFilenameLabelAndImageView = 10.0f;
 static CGFloat kPaddingTopBetweenProgressViewAndFilenameLabel = 10.0f;
 static CGFloat kPaddingLeftAndRightFilenameLabel = 60.0f;
@@ -149,7 +149,7 @@ typedef void (^AFQuickLookPreviewProgressBlock)(NSUInteger bytesRead, long long 
 }
 
 - (void)setupFilenameLabel:(UILabel*)filenameLabel withFileImageView:(UIImageView*)fileImageView detailView:(UIView*)detailView {
-    filenameLabel.textAlignment = UITextAlignmentCenter;
+    filenameLabel.textAlignment = NSTextAlignmentCenter;
     filenameLabel.frame = CGRectMake(0.0f, 0.0f, CGRectGetWidth(detailView.frame) - 2*kPaddingLeftAndRightFilenameLabel, kPreDownloadFilenameLabelHeight);
     filenameLabel.center = detailView.center;
     [self verticalAlignFilenameLabel:filenameLabel withFileImageView:fileImageView detailView:detailView];
@@ -313,7 +313,7 @@ typedef void (^AFQuickLookPreviewProgressBlock)(NSUInteger bytesRead, long long 
 #pragma mark - QLPreviewControllerDataSource delegate
 
 - (NSInteger)numberOfPreviewItemsInPreviewController:(QLPreviewController *)previewController {
-    NSInteger numToPreview = 0;
+    NSInteger numToPreview = 1;
     return numToPreview;
 }
 
@@ -390,9 +390,9 @@ typedef void (^AFQuickLookPreviewProgressBlock)(NSUInteger bytesRead, long long 
     NSRange startRange = [string rangeOfString:@"filename="];
     
     if (startRange.location != NSNotFound && startRange.length != NSNotFound) {
-        int filenameStart = startRange.location + startRange.length;
+        NSUInteger filenameStart = startRange.location + startRange.length;
         NSRange endRange = [string rangeOfString:@" " options:NSLiteralSearch range:NSMakeRange(filenameStart, [string length] - filenameStart)];
-        int filenameLength = 0;
+        NSUInteger filenameLength = 0;
         
         if (endRange.location != NSNotFound && endRange.length != NSNotFound) {
             filenameLength = endRange.location - filenameStart;
@@ -427,7 +427,6 @@ typedef void (^AFQuickLookPreviewProgressBlock)(NSUInteger bytesRead, long long 
         _mimeTypesToExtensionsDictionary[@"application/vnd.openxmlformats-officedocument.wordprocessingml.document"] = @"docx";
         _mimeTypesToExtensionsDictionary[@"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"] = @"xlsx";
         _mimeTypesToExtensionsDictionary[@"image/jpeg"] = @"jpeg";
-    	_mimeTypesToExtensionsDictionary[@"image/png"] = @"png";
         _mimeTypesToExtensionsDictionary[@"application/pdf"] = @"pdf";
         _mimeTypesToExtensionsDictionary[@"application/vnd.ms-powerpoint"] = @"ppt";
         _mimeTypesToExtensionsDictionary[@"application/rtf"] = @"rtf";
